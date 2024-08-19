@@ -29,12 +29,13 @@ class DetailViewController: UIViewController {
         }
         title = imageName
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.hidesBarsOnTap = true
-        viewHeight.constant = viewWidth.constant / 2
+        //viewHeight.constant = viewWidth.constant / 2
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

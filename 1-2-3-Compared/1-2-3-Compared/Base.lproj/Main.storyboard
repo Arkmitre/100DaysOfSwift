@@ -18,12 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IzL-33-ae4">
-                                <rect key="frame" x="5" y="250" width="365" height="187"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="187" id="AnT-RD-lHM"/>
-                                    <constraint firstAttribute="width" constant="365" id="LUG-Dl-I4w"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IzL-33-ae4">
+                                <rect key="frame" x="0.0" y="243.5" width="375" height="200"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                         <integer key="value" value="2"/>
@@ -33,19 +29,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IzL-33-ae4" firstAttribute="leading" secondItem="LAD-yu-tnQ" secondAttribute="leading" constant="5" id="TxC-8W-wLm"/>
-                            <constraint firstItem="IzL-33-ae4" firstAttribute="centerX" secondItem="tJi-MZ-DzC" secondAttribute="centerX" id="dU4-IN-eSF"/>
-                            <constraint firstItem="LAD-yu-tnQ" firstAttribute="bottom" secondItem="IzL-33-ae4" secondAttribute="bottom" constant="230" id="n3T-38-Jm9"/>
-                            <constraint firstItem="IzL-33-ae4" firstAttribute="top" secondItem="LAD-yu-tnQ" secondAttribute="top" constant="230" id="yj8-xD-Hpa"/>
+                            <constraint firstItem="IzL-33-ae4" firstAttribute="centerY" secondItem="LAD-yu-tnQ" secondAttribute="centerY" id="4YF-L8-LvS"/>
+                            <constraint firstItem="IzL-33-ae4" firstAttribute="centerX" secondItem="LAD-yu-tnQ" secondAttribute="centerX" id="rWG-3J-qrb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LAD-yu-tnQ"/>
                     </view>
                     <connections>
-                        <outlet property="bottomConstraint" destination="n3T-38-Jm9" id="rTo-SP-4ss"/>
                         <outlet property="imageView" destination="IzL-33-ae4" id="Iys-fZ-Pk7"/>
-                        <outlet property="topConstraint" destination="dU4-IN-eSF" id="LRQ-Zn-K5B"/>
-                        <outlet property="viewHeight" destination="AnT-RD-lHM" id="EFU-X8-Tcp"/>
-                        <outlet property="viewWidth" destination="LUG-Dl-I4w" id="IPk-em-Hv1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FxC-ob-ta0" userLabel="First Responder" sceneMemberID="firstResponder"/>
