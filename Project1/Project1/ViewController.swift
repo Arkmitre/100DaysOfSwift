@@ -16,17 +16,27 @@ class ViewController: UITableViewController {
         
         title = "Strom Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
+        DispatchQueue.global(qos: .background).async {
+            self.loadData()
+        }
         
+    }
+    
+    @objc func loadData() {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
         
-        for item in items {
-            if item.hasPrefix("nssl") {
-                pictures.append(item)
+        DispatchQueue.main.async {
+            for item in items {
+                if item.hasPrefix("nssl") {
+                    self.pictures.append(item)
+                }
             }
+            self.pictures.sort()
+            self.tableView.reloadData()
         }
-        pictures.sort()
+
     }
     
     override func tableView(_ tableView: UITableView , numberOfRowsInSection: Int) -> Int {
