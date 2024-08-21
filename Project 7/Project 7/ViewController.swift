@@ -103,18 +103,23 @@ class ViewController: UITableViewController {
     }
     
     func filterPetitions(_ filter: String) {
-        var index = 0
-        
-        if filter.isEmpty { showErrorFilter() }
-        
-        for petition in filteredPetitions {
-            if !(petition.body.contains(filter) || petition.title.contains(filter)) {
-                filteredPetitions.remove(at: index)
-                index -= 1
+        DispatchQueue.global(qos: .background).async {
+            
+            if filter.isEmpty { DispatchQueue.main.async {
+                self.showErrorFilter()
+                }
+                return
             }
-            index += 1
+            var index = 0
+            for petition in self.filteredPetitions {
+                if !(petition.body.contains(filter) || petition.title.contains(filter)) {
+                    self.filteredPetitions.remove(at: index)
+                    index -= 1
+                }
+                index += 1
+            }
+            DispatchQueue.main.async { self.tableView.reloadData()}
         }
-        tableView.reloadData()
     }
     func clearFilter() {
         filteredPetitions = petitions
