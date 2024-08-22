@@ -139,7 +139,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadLevel()
+        DispatchQueue.global(qos: .background).async {
+            self.loadLevel()
+        }
         
     }
     
@@ -218,7 +220,9 @@ class ViewController: UIViewController {
         
         if lettersBits.count == letterButtons.count {
             for i in 0..<letterButtons.count {
-                letterButtons[i].setTitle(lettersBits[i], for: .normal)
+                DispatchQueue.main.async {
+                    self.letterButtons[i].setTitle(lettersBits[i], for: .normal)
+                }
             }
         }
     }
@@ -227,7 +231,9 @@ class ViewController: UIViewController {
         level += 1
         solutions.removeAll(keepingCapacity: true)
         
-        loadLevel()
+        DispatchQueue.global(qos: .background).async {
+            self.loadLevel()
+        }
         
         for btn in letterButtons {
             btn.isHidden = false
