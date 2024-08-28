@@ -11,10 +11,12 @@ import UIKit
 class ViewController: UITableViewController {
     var allWords = [String]()
     var usedWords = [String]()
+    var currentWord = [""]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        read()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promtForAnswer))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(startGame))
         
@@ -26,7 +28,9 @@ class ViewController: UITableViewController {
         if allWords.isEmpty {
             allWords = ["silkworm"]
         }
-        startGame()
+        if title?.isEmpty ?? true {
+            startGame()
+        }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return usedWords.count
@@ -39,6 +43,8 @@ class ViewController: UITableViewController {
     @objc func startGame() {
         title = allWords[Int(arc4random_uniform(UInt32(allWords.count)))]
         usedWords.removeAll(keepingCapacity: true)
+        currentWord[0] = title!
+        save()
         tableView.reloadData()
     }
     func submit(_ answer: String) {
@@ -48,7 +54,8 @@ class ViewController: UITableViewController {
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
                     usedWords.insert(lowerAnswer, at: 0)
-                    
+                    currentWord[0] = title!
+                    save()
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
                     
@@ -99,6 +106,47 @@ class ViewController: UITableViewController {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+    
+    func read() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let defaults = UserDefaults.standard
+            let jsonDecoder = JSONDecoder()
+            if let savedTitle = defaults.object(forKey: "currentWord") as? Data {
+                DispatchQueue.main.async {
+                    do {
+                        self.title = try jsonDecoder.decode([String].self, from: savedTitle).first
+                    } catch {
+                        print("Failed to load savedTitle") }
+                }
+            }
+            if let savedWords = defaults.object(forKey: "usedWords") as? Data {
+                DispatchQueue.main.async {
+                    do {
+                        self.usedWords = try jsonDecoder.decode([String].self, from: savedWords)
+                    } catch { print("Failed to load savedWords") }
+                
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func save() {
+        DispatchQueue.global(qos: .background).async {
+            let jsonEncoder = JSONEncoder()
+            let defaults = UserDefaults.standard
+            if let savedTitle = try? jsonEncoder.encode(self.currentWord) {
+                defaults.set(savedTitle, forKey: "currentWord")
+            } else {
+                print("Failed to save savedTitle")
+            }
+            if let savedWords = try? jsonEncoder.encode(self.usedWords) {
+                defaults.set(savedWords, forKey: "usedWords")
+            } else {
+                print("Failed to save savedWords")
+            }
+        }
     }
 
 
