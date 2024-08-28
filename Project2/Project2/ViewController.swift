@@ -17,12 +17,14 @@ class ViewController: UIViewController {
     
     var countries = [String]()
     var score = 0
+    var highScore = 0
     var correctAnswer = 0
     var roundCount = 0
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        read()
         
         refreshScoreAndRound()
         button1.layer.borderWidth = 1
@@ -45,7 +47,7 @@ class ViewController: UIViewController {
         label2.text = "Round: \(roundCount)"
     }
     func askQuestion(action: UIAlertAction! = nil) {
-        countries.shuffle() //Not implemented in Swift 4.0 so use extension
+        countries.shuffle() //Not implemented in Swift 4.0 so used extension
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
@@ -53,15 +55,21 @@ class ViewController: UIViewController {
         title = countries[correctAnswer].uppercased()
     }
     func finalScore(action: UIAlertAction! = nil) {
-        if roundCount == 2 {
             let final = UIAlertController(title: "Congrats", message: "Your finale score is \(score)", preferredStyle: .alert)
+            if highScore < score {
+                highScore = score
+                save()
+                final.title = "Congrats, you beat High Score"
+                final.message = "High Score: \(highScore)"
+            }
             final.addAction(UIAlertAction(title: "Continue?", style: .default, handler: askQuestion))
             present(final, animated: true)
+
             score = 0
             roundCount = 0
             refreshScoreAndRound()
-        }
     }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         
@@ -75,7 +83,7 @@ class ViewController: UIViewController {
         roundCount += 1
 
         let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: roundCount == 10 ? finalScore : askQuestion))
+        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: roundCount == 5 ? finalScore : askQuestion))
         present(ac, animated: true)
         refreshScoreAndRound()
     }
@@ -83,8 +91,34 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-
+    
+    func read() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let defaults = UserDefaults.standard
+            if let savedHighScore = defaults.object(forKey: "highScore") as? Data {
+                let jsonDecoder = JSONDecoder()
+                do {
+                    self.highScore = try jsonDecoder.decode(Int.self, from: savedHighScore)
+                } catch {
+                    DispatchQueue.main.async { print("Failed to load viewsCount") }
+                }
+                
+            }
+        }
+    }
+    
+    func save() {
+        DispatchQueue.global(qos: .background).async {
+            let jsonEncoder = JSONEncoder()
+            
+            if let savedData = try? jsonEncoder.encode(self.highScore) {
+                let defaults = UserDefaults.standard
+                defaults.set(savedData, forKey: "highScore")
+            } else {
+                print("Failed to load viewsCount")
+            }
+        }
+    }
 }
 
 extension Array {
