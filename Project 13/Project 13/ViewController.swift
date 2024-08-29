@@ -13,6 +13,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var intensity: UISlider!
     var currentImage: UIImage!
+    @IBOutlet var changeFilterButton: UIButton!
     
     var context: CIContext!
     var currentFilter: CIFilter!
@@ -65,6 +66,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         guard currentImage != nil else { return }
         guard let actionTitle = action.title else { return }
         
+        changeFilterButton.setTitle(actionTitle, for: .normal)
         currentFilter = CIFilter(name: actionTitle)
         
         let beginImage = CIImage(image: currentImage)
