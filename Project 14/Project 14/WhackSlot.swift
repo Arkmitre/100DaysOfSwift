@@ -70,5 +70,11 @@ class WhackSlot: SKNode {
         let notVisible = SKAction.run { [weak self] in self?.isVisible = false }
         let sequence = SKAction.sequence([delay, hide, notVisible])
         charNode.run(sequence)
+        
+        guard let smoke = SKEmitterNode(fileNamed: "MyParticle.sks") else { return }
+        smoke.position = CGPoint(x: charNode.position.x, y: charNode.position.y + 60)
+        smoke.zPosition = 0
+        charNode.addChild(smoke)
+        
     }
 }

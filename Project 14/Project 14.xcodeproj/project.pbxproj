@@ -17,6 +17,7 @@
 		114FBB9D2C8329F400FDFEDA /* whackBad.caf in Resources */ = {isa = PBXBuildFile; fileRef = 114FBB9B2C8329F300FDFEDA /* whackBad.caf */; };
 		114FBB9E2C8329F400FDFEDA /* whack.caf in Resources */ = {isa = PBXBuildFile; fileRef = 114FBB9C2C8329F400FDFEDA /* whack.caf */; };
 		114FBBA02C832DD000FDFEDA /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114FBB9F2C832DD000FDFEDA /* WhackSlot.swift */; };
+		114FBBA22C834FB200FDFEDA /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 114FBBA12C834FB200FDFEDA /* MyParticle.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		114FBB9B2C8329F300FDFEDA /* whackBad.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whackBad.caf; sourceTree = "<group>"; };
 		114FBB9C2C8329F400FDFEDA /* whack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whack.caf; sourceTree = "<group>"; };
 		114FBB9F2C832DD000FDFEDA /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
+		114FBBA12C834FB200FDFEDA /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			children = (
 				114FBB832C8328E900FDFEDA /* AppDelegate.swift */,
 				114FBB852C8328EB00FDFEDA /* GameScene.sks */,
+				114FBBA12C834FB200FDFEDA /* MyParticle.sks */,
 				114FBB892C8328EC00FDFEDA /* GameScene.swift */,
 				114FBB9F2C832DD000FDFEDA /* WhackSlot.swift */,
 				114FBB8B2C8328EC00FDFEDA /* GameViewController.swift */,
@@ -142,6 +145,7 @@
 				114FBB8F2C8328EC00FDFEDA /* Main.storyboard in Resources */,
 				114FBB862C8328EB00FDFEDA /* GameScene.sks in Resources */,
 				114FBB912C8328EC00FDFEDA /* Assets.xcassets in Resources */,
+				114FBBA22C834FB200FDFEDA /* MyParticle.sks in Resources */,
 				114FBB942C8328EC00FDFEDA /* LaunchScreen.storyboard in Resources */,
 				114FBB9E2C8329F400FDFEDA /* whack.caf in Resources */,
 			);
