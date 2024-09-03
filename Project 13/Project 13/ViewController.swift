@@ -92,6 +92,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func applyProcessing() {
         let inputKeys = currentFilter.inputKeys
+        imageView.alpha = 0
         
         if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey) }
         if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey) }
@@ -103,7 +104,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             let processedImage = UIImage(cgImage: cgImage)
-            imageView.image = processedImage
+            self.imageView.image = processedImage
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 4, delay: 0, options: [], animations: {
+                    self.imageView.alpha = 1
+                })
+            }
         }
     }
     
