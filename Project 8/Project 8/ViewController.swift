@@ -149,7 +149,11 @@ class ViewController: UIViewController {
         guard  let buttonTitle = sender.titleLabel?.text  else { return }
         currentAnswer.text = currentAnswer.text?.appending(buttonTitle)
         activatedButtons.append(sender)
-        sender.isHidden = true
+        UIView.animate(withDuration: 1, delay: 0, options: [], animations: {
+            sender.alpha = 0
+            })
+        // and if answers is wrong they dont back)))) ToDo
+        //sender.isHidden = true
     }
     
     @objc func submitTaped(_ sender: UIButton) {
@@ -172,6 +176,7 @@ class ViewController: UIViewController {
                 present(ac, animated: true)
             }
         } else {
+           clearTaped(sender)
             wrongAnswerError()
         }
     }
@@ -180,7 +185,8 @@ class ViewController: UIViewController {
         currentAnswer.text = ""
         
         for btn in activatedButtons {
-            btn.isHidden = false
+            btn.alpha = 1
+            //btn.isHidden = false
         }
         
         activatedButtons.removeAll()
@@ -236,7 +242,8 @@ class ViewController: UIViewController {
         }
         
         for btn in letterButtons {
-            btn.isHidden = false
+            //btn.isHidden = false
+            btn.alpha = 1
         }
     }
     
