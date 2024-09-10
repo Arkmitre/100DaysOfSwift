@@ -1,0 +1,24 @@
+{"country":[
+  {
+      "title": "Russia",
+      "capital": "Moscow",
+      "size": 17098246,
+      "population": 146150000,
+      "currency": "RUB"
+  },
+  {
+      "title": "UK",
+      "capital": "London",
+      "size": 242500,
+      "population": 67000000,
+      "currency": "GBP"
+  },
+  {
+      "title": "USA",
+      "capital": "Washington",
+      "size": 9833520,
+      "population": 334914895,
+      "currency": "USD"
+  }
+  ]
+}
