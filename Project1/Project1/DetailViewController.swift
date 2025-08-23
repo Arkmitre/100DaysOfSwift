@@ -20,6 +20,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        assert(selectedImage != nil, "Must be a selected image")
+        
         if viewCount.isEmpty { viewCount = [Int](repeating: 0, count: imageIndex!.1) }
         read()
         
