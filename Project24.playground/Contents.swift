@@ -71,7 +71,7 @@ import UIKit
 //
 //languages.contains(where: input.contains)
 
-let string = "This is a test string"
+//let string = "This is a test string"
 //let attributes: [NSAttributedString.Key: Any] = [
 //    .foregroundColor: UIColor.white,
 //    .backgroundColor: UIColor.red,
@@ -80,15 +80,57 @@ let string = "This is a test string"
 //
 //let attributedString = NSAttributedString(string: string, attributes: attributes)
 
-let attributedString = NSMutableAttributedString(string: string)
+//let attributedString = NSMutableAttributedString(string: string)
+//
+//attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 8), range: NSRange(location: 0, length: 4))
+//attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), range: NSRange(location: 5, length: 2))
+//attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 24), range: NSRange(location: 8, length: 1))
+//attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 32), range: NSRange(location: 10, length: 4))
+//attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 40), range: NSRange(location: 15, length: 6))
 
-attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 8), range: NSRange(location: 0, length: 4))
-attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), range: NSRange(location: 5, length: 2))
-attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 24), range: NSRange(location: 8, length: 1))
-attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 32), range: NSRange(location: 10, length: 4))
-attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 40), range: NSRange(location: 15, length: 6))
+// MARK: Challenge 1.
 
+//extension String {
+//    func withPrefix(prefix: String) -> String {
+//        if self.hasPrefix(prefix) {
+//            return self
+//        } else {
+//            return prefix + self
+//        }
+//    }
+//}
+//let goodTestString = "carpet"
+//let badTestString = "pet"
+//goodTestString.withPrefix(prefix: "car")
+//badTestString.withPrefix(prefix: "car")
 
+// MARK: Challenge 2.
+
+//extension String {
+//    var isNumeric: Bool {
+//        if !("0"..."9").contains(self) {
+//            return false
+//        }
+//        return true
+//    }
+//}
+//let numericString = "123542"
+//let unNumericString = "asdf"
+//let gibridString = "123asdf"
+//numericString.isNumeric
+//unNumericString.isNumeric
+//gibridString.isNumeric
+
+// MARK: Challenge 3.
+
+extension String {
+    var lines: [String] {
+        return self.split(separator: "\n").map(String.init)
+    }
+}
+
+let multiLineString = "this\nis\na\ntest\nstring"
+multiLineString.lines
 
 
 
