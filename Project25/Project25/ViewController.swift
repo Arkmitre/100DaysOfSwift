@@ -8,12 +8,13 @@
 import MultipeerConnectivity
 import UIKit
 
-class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate {
+class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate, MCNearbyServiceAdvertiserDelegate {
+    
     var images = [UIImage]()
     
     var peerID = MCPeerID(displayName: UIDevice.current.name)
     var mcSession: MCSession?
-    var mcAdvertiserAssistant: MCAdvertiserAssistant?
+    var advertiser: MCNearbyServiceAdvertiser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +29,9 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     }
     
     func startHosting(action: UIAlertAction) {
-        guard let mcSession = mcSession else { return }
-        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-project25", discoveryInfo: nil, session: mcSession)
-        mcAdvertiserAssistant?.start()
-        print("worked!")
+        advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "hws-project25")
+        advertiser?.delegate = self
+        advertiser?.startAdvertisingPeer()
     }
     
     func joinSession(action: UIAlertAction) {
@@ -40,7 +40,17 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
 
         mcBrowser.delegate = self
         present(mcBrowser, animated: true)
-        print("")
+    }
+    
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+        let ac = UIAlertController(title: "Project25", message: "'\(peerID.displayName)' wants to join your session. Accept?", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Accept", style: .default, handler: { [weak self] _ in
+                invitationHandler(true, self?.mcSession)
+        }))
+        ac.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: { _ in
+                invitationHandler(false, nil)
+        }))
+        present(ac, animated: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
