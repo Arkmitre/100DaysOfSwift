@@ -188,14 +188,14 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         }
         let message = String(decoding: data, as: UTF8.self)
                 print("Received text message: \(message)")
-        if !message.isEmpty {
+        if !message.isEmpty && !message.contains("PNG") {
             DispatchQueue.main.async { [weak self] in
                 self?.messageFromPeer(peer: peerID.displayName, message: message)
             }
         }
     }
     
-     @objc func peerDisconnectedAlert(peer: String) {
+    @objc func peerDisconnectedAlert(peer: String) {
             let ac = UIAlertController(title: "User \(peer) disconnected", message: nil, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .cancel))
             present(ac, animated: true)
