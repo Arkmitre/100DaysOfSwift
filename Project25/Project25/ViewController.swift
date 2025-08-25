@@ -22,7 +22,9 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         
         title = "Selfie Share"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionPrompt))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(importPicture))
+        let rightButton1 = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(importPicture))
+        let rightButton2 = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sendMessage))
+        navigationItem.rightBarButtonItems = [rightButton1, rightButton2]
         
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession?.delegate = self
@@ -102,7 +104,25 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         present(ac, animated: true)
     }
     
+    @objc func sendMessage() {
+        guard let mcSession = mcSession else { return }
+        
+        if mcSession.connectedPeers.count > 0 {
+            let messageString = "Hello, world!"
+            if let data = messageString.data(using: .utf8) {
+                do {
+                    try mcSession.send(data, toPeers: mcSession.connectedPeers, with: .reliable)
+                } catch {
+                    let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    present(ac, animated: true)
+                }
+            }
+        }
+    }
+    
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        print("session did receive stream")
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
@@ -151,6 +171,13 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
                 self?.collectionView?.reloadData()
             }
         }
+        let message = String(decoding: data, as: UTF8.self)
+                print("Received text message: \(message)")
+        if !message.isEmpty {
+            DispatchQueue.main.async { [weak self] in
+                self?.messageFromPeer(peer: peerID.displayName, message: message)
+            }
+        }
     }
     
      @objc func peerDisconnectedAlert(peer: String) {
@@ -158,6 +185,11 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
             ac.addAction(UIAlertAction(title: "OK", style: .cancel))
             present(ac, animated: true)
     }
+    @objc func messageFromPeer(peer: String, message: String) {
+           let ac = UIAlertController(title: "User \(peer) send message: \(message)", message: nil, preferredStyle: .alert)
+           ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+           present(ac, animated: true)
+   }
     
 }
 
