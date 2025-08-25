@@ -106,16 +106,20 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        print("session did start receiving resource")
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: (any Error)?) {
+        print("session did finish receiving resource")
     }
     
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        print("Browser did finish")
         dismiss(animated: true)
     }
     
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        print("browser was cancelled")
         dismiss(animated: true)
     }
     
@@ -128,6 +132,10 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
             print("Connecting: \(peerID.displayName)")
 
         case .notConnected:
+            // disconnect method here
+            DispatchQueue.main.async { [weak self] in
+                self!.peerDisconnectedAlert(peer: peerID.displayName)
+            }
             print("Not Connected: \(peerID.displayName)")
 
         @unknown default:
@@ -143,6 +151,12 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
                 self?.collectionView?.reloadData()
             }
         }
+    }
+    
+     @objc func peerDisconnectedAlert(peer: String) {
+            let ac = UIAlertController(title: "User \(peer) disconnected", message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+            present(ac, animated: true)
     }
     
 }
