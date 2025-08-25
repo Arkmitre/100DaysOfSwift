@@ -24,7 +24,9 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionPrompt))
         let rightButton1 = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(importPicture))
         let rightButton2 = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sendMessage))
-        navigationItem.rightBarButtonItems = [rightButton1, rightButton2]
+        let rightButton3 = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showPeerList))
+        
+        navigationItem.rightBarButtonItems = [rightButton1, rightButton2, rightButton3]
         
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession?.delegate = self
@@ -121,6 +123,19 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         }
     }
     
+    @objc func showPeerList() {
+        guard let mcSession = mcSession else { return }
+        let peerNames = mcSession.connectedPeers.map { $0.displayName }
+
+        let ac = UIAlertController(title: "Connected peers", message: nil, preferredStyle: .actionSheet)
+        for name in peerNames {
+            let action = UIAlertAction(title: name, style: .default)
+            ac.addAction(action)
+        }
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         print("session did receive stream")
     }
@@ -190,6 +205,8 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
            ac.addAction(UIAlertAction(title: "OK", style: .cancel))
            present(ac, animated: true)
    }
+    
+
     
 }
 
