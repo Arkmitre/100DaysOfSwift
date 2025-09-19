@@ -49,8 +49,12 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
 
 		title = image.replacingOccurrences(of: "-Large.jpg", with: "")
-        let path = Bundle.main.path(forResource: image, ofType: nil)!
-		let original = UIImage(contentsOfFile: path)!
+        guard let path = Bundle.main.path(forResource: image, ofType: nil) else {
+            print("No image")
+            return }
+        guard let original = UIImage(contentsOfFile: path) else {
+            print("No Uimage for this path")
+            return }
 
 		let renderer = UIGraphicsImageRenderer(size: original.size)
 
