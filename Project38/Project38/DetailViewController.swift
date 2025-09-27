@@ -15,17 +15,7 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
     var detailItem: Commit?
     var webView: WKWebView!
     
-    override func loadView() {
-        
-        if let detail = self.detailItem {
-            //let url = URL(string: "https://support.apple.com/ru-ru")!
-            print(detail.url)
-            let safariVC = SFSafariViewController(url: URL(string: detail.url)!)
-            present(safariVC, animated: true)
-        }
-        
-        
-        
+//    override func loadView() {
 //        let configuration = WKWebViewConfiguration()
 //        let preferences = WKWebpagePreferences()
 //        preferences.allowsContentJavaScript = true
@@ -36,10 +26,12 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
 //        
 //        webView.navigationDelegate = self
 //        view = webView
-    }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show in GitHub", style: .plain, target: self, action: #selector(showCommitInGitHub))
         
 //        if let detail = self.detailItem {
 //            //let url = URL(string: "https://support.apple.com/ru-ru")!
@@ -51,11 +43,21 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
 //        }
         
         
-//        if let detail = self.detailItem {
-//            detailLabel.text = detail.message
-//            //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Commit 1 /\(detail.author.commits.count)", style: .plain, target: self, action: #selector(showAuthorCommits))
-//        }
+        if let detail = self.detailItem {
+            detailLabel.text = detail.message
+            //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Commit 1 /\(detail.author.commits.count)", style: .plain, target: self, action: #selector(showAuthorCommits))
+        }
 
+    }
+    
+    @objc func showCommitInGitHub() {
+        
+        if let detail = self.detailItem {
+            //let url = URL(string: "https://support.apple.com/ru-ru")!
+            print(detail.url)
+            let safariVC = SFSafariViewController(url: URL(string: detail.url)!)
+            present(safariVC, animated: true)
+        }
     }
     
 
@@ -70,3 +72,8 @@ class DetailViewController: UIViewController, WKNavigationDelegate {
     */
 
 }
+//extension DetailViewController: SFSafariViewControllerDelegate {
+//    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+//        .dismiss(animated: true)
+//    }
+//}
